@@ -6,6 +6,10 @@ const API_URL = 'https://course-vue.javascript.ru/api';
 /** ID митапа для примера; используйте его при получении митапа */
 const MEETUP_ID = 6;
 
+function getMeetupLink() {
+  return `${API_URL}/meetups/${MEETUP_ID}`;
+}
+
 /**
  * Возвращает ссылку на изображение митапа для митапа
  * @param meetup - объект с описанием митапа (и параметром meetupId)
@@ -44,23 +48,81 @@ const agendaItemIcons = {
   other: 'cal-sm',
 };
 
+const getDateOnlyString = (date) => {
+  const YYYY = date.getUTCFullYear();
+  const MM = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  const DD = date.getUTCDate().toString().padStart(2, '0');
+  return `${YYYY}-${MM}-${DD}`;
+};
+
+
 export const app = new Vue({
   el: '#app',
 
-  data: {
-    //
+  data() {
+    return {
+      rawMeetup: null,
+    };
   },
 
-  mounted() {
+  async mounted() {
     // Требуется получить данные митапа с API
+    this.rawMeetup = await this.getMeetup();
   },
 
   computed: {
-    //
+    meetup() {
+      return this.rawMeetup
+        ? {
+          ...this.rawMeetup,
+          cover: this.rawMeetup.imageId
+            ? getMeetupCoverLink(this.rawMeetup)
+            : undefined,
+          coverStyle: this.rawMeetup.imageId
+            ? {
+              '--bg-url': `url(${getMeetupCoverLink(this.rawMeetup)}`,
+            }
+            : {},
+          date: new Date(this.rawMeetup.date),
+          localDate: new Date(this.rawMeetup.date).toLocaleString(navigator.language, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }),
+          dateOnlyString: getDateOnlyString(new Date(this.rawMeetup.date)),
+
+          agenda: {
+            ...this.rawMeetup.agenda.map((agendaItem) => ({
+              ...agendaItem,
+              title: agendaItem.title
+                ? agendaItem.title
+                : agendaItemTitles[agendaItem.type],
+              time: `${agendaItem.startsAt} - ${agendaItem.endsAt}`,
+              imageName: `/assets/icons/icon-${agendaItemIcons[agendaItem.type]}.svg`
+            })),
+          },
+
+        } : null;
+    },
   },
 
   methods: {
     // Получение данных с API предпочтительнее оформить отдельным методом,
     // а не писать прямо в mounted()
+
+    async getMeetup() {
+
+      let response = await fetch(getMeetupLink());
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        console.log("Ошибка HTTP: " + response.status);
+        return null;
+      }
+    },
   },
 });
+
+window.app = app;
+

@@ -1,32 +1,46 @@
-// import { MeetupCover } from './MeetupCover.js';
-// import { MeetupDescription } from './MeetupDescription.js';
-// import { MeetupAgenda } from './MeetupAgenda.js';
-// import { MeetupInfo } from './MeetupInfo.js';
-// import { getMeetupCoverLink } from './data.js';
+import { MeetupCover } from './MeetupCover.js';
+import { MeetupDescription } from './MeetupDescription.js';
+import { MeetupAgenda } from './MeetupAgenda.js';
+import { MeetupInfo } from './MeetupInfo.js';
+import { getMeetupCoverLink } from './data.js';
 
 export const MeetupView = {
   name: 'MeetupView',
-
+  
   template: `
     <div>
-      <!-- meetup cover -->
+      <meetup-cover :title=meetup.title :link="meetupCoverLink"/>
       <div class="container">
         <div class="meetup">
           <div class="meetup__content">
             <h3>Описание</h3>
-            <!-- meetup description -->
-
+            <meetup-description :description=meetup.description />
             <h3>Программа</h3>
-            <!-- meetup agenda -->
+            <meetup-agenda :agenda="meetup.agenda" />
           </div>
-          <div class="meetup__aside">
-            <!-- meetup info -->
-          </div>
+          <meetup-info :place=meetup.place :organizer=meetup.organizer :date="new Date(meetup.date)" />
         </div>
       </div>
     </div>`,
 
-  // components
+  components: {
+    MeetupCover,
+    MeetupDescription,
+    MeetupAgenda,
+    MeetupInfo,
+  },
+  
+  props: {
+    meetup: {
+      type: Object,
+      required: true,
+    },
+  },
 
-  // props
+  computed: {
+    meetupCoverLink() {
+      return getMeetupCoverLink(this.meetup)
+    },
+
+  },
 };
