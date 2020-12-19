@@ -32,7 +32,7 @@
               <p v-show="meetup.agenda.length" class="meetup-agenda__empty">Программа пока пуста, но когда-нибудь в ней бязательно что-нибудь появится!</p>
               <div v-for="(agendaItem,name,index) in meetup.agenda" class="meetup-agenda__item" :style="{'border-top': index===0 ? '0': ''}" >
                 <div class="meetup-agenda__item-col">
-                  <img class="icon" alt="icon" :src="`/assets/icons/icon-${agendaItem.imageName}.svg`" />
+                  <img class="icon" alt="icon" :src="`${agendaItem.imageName}`" />
                 </div>
                 <div class="meetup-agenda__item-col">{{ agendaItem.time }}</div>
                 <div class="meetup-agenda__item-col">

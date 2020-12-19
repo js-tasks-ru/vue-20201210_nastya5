@@ -98,7 +98,7 @@ export const app = new Vue({
                 ? agendaItem.title
                 : agendaItemTitles[agendaItem.type],
               time: `${agendaItem.startsAt} - ${agendaItem.endsAt}`,
-              imageName: agendaItemIcons[agendaItem.type]
+              imageName: `/assets/icons/icon-${agendaItemIcons[agendaItem.type]}.svg`
             })),
           },
 
