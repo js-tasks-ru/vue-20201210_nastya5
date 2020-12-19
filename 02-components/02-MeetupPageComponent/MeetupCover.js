@@ -1,7 +1,7 @@
 export const MeetupCover = {
   //name: 'MeetupCover',
   template: 
-    `<div class="meetup-cover" :style="link? \`--bg-url: url('\${link}')\` : 'https://course-vue.javascript.ru/api/images/2'">
+    `<div class="meetup-cover" :style="link? \`--bg-url: url('\${link}')\` : ''">
       <h1 class="meetup-cover__title">{{ title ? title : '' }}</h1>
     </div>`,
 
