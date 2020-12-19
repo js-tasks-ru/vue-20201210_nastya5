@@ -36,7 +36,7 @@
                 </div>
                 <div class="meetup-agenda__item-col">{{ agendaItem.time }}</div>
                 <div class="meetup-agenda__item-col">
-                  <h5 class="meetup-agenda__title" v-html="agendaItem.title"></h5>
+                  <h5 class="meetup-agenda__title"> {{ agendaItem.title }} </h5>
                   <template v-if="agendaItem.type === 'talk'">
                     <p><span>{{ agendaItem.speaker }}</span>  
                     <span class="meetup-agenda__dot"></span><span class="meetup-agenda__lang">{{ agendaItem.language}}</span>
