@@ -9,9 +9,9 @@ export const MeetupsCalendar = {
     <div class="rangepicker__calendar">
       <div class="rangepicker__month-indicator">
         <div class="rangepicker__selector-controls">
-          <button class="rangepicker__selector-control-left" @click="prevMounthHandler"></button>
+          <button class="rangepicker__selector-control-left" @click="prevMonthHandler"></button>
           <div>{{ title }}</div>
-          <button class="rangepicker__selector-control-right" @click="nextMounthHandler"></button>
+          <button class="rangepicker__selector-control-right" @click="nextMonthHandler"></button>
         </div>
       </div>
       <div class="rangepicker__date-grid">
@@ -98,11 +98,11 @@ export const MeetupsCalendar = {
       return new Date(date).getMonth() == this.date.getMonth();
     },
 
-    prevMounthHandler(e) {
+    prevMonthHandler(e) {
       this.date = new Date(new Date(this.date).setMonth(this.date.getMonth() - 1));
     },
 
-    nextMounthHandler(e) {
+    nextMonthHandler(e) {
       this.date = new Date(new Date(this.date).setMonth(this.date.getMonth() + 1));
     },
 
