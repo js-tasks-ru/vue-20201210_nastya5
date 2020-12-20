@@ -16,9 +16,9 @@ export const MeetupsCalendar = {
       </div>
       <div class="rangepicker__date-grid">
         <template class="rangepicker__row" v-for="week in monthTable">
-          <div v-for="date in week" class="rangepicker__cell" :class=" !isActiveDate(date) ?  \`rangepicker__cell_inactive\` : '' ">
-            {{new Date(date).getDate()}}
-            <a v-for="meetup in getMeetupsForDate(date)" class="rangepicker__event">{{ meetup.title }}</a>
+          <div v-for="item in week" class="rangepicker__cell" :class="{ 'rangepicker__cell_inactive': !isActiveDate(item.date) }">
+            {{ new Date(item.date).getDate() }}
+            <a v-for="meetup in item.meetups" class="rangepicker__event">{{ meetup.title }}</a>
           </div>
         </template>
       </div>
@@ -80,7 +80,11 @@ export const MeetupsCalendar = {
           table[week] = new Array();
         }
         
-        table[week][dayOfWeek-1] = date;
+        table[week][dayOfWeek-1] = { 
+          date: date, 
+          meetups: this.meetups.filter(meetup =>
+            (new Date((new Date(meetup.date)).setHours(0, 0, 0, 0))).getTime() === date.getTime()), 
+        };
 
         if (dayOfWeek == LastDayOfWeek) {
           week++;
@@ -91,6 +95,7 @@ export const MeetupsCalendar = {
 
       return table;
     },
+
   },
 
   // Методы понадобятся для переключения между месяцами
@@ -106,13 +111,6 @@ export const MeetupsCalendar = {
     nextMonthHandler(e) {
       this.date = new Date(new Date(this.date).setMonth(this.date.getMonth() + 1));
     },
-
-    getMeetupsForDate(date) {
-      return this.meetups.filter(meetup =>
-        //new Date((new Date(meetup.date)).setHours(0,0,0,0)) === date // It does not work :(
-        (new Date((new Date(meetup.date)).setHours(0, 0, 0, 0))).getTime() === date.getTime()
-      );
-    }
   },
 };
 
