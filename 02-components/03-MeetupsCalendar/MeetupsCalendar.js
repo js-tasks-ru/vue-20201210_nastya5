@@ -66,26 +66,27 @@ export const MeetupsCalendar = {
       let table = new Array();
 
       let date = new Date(this.date);
-      while (date.getDay() !== Monday) { // to find start date
+      while (date.getDay() != Monday) { // to find start date
         date.setDate(date.getDate() - 1);
       }
 
       for (let week = 0; ;) {
+        let dayOfWeek = getLocalDay(date);
+        if ((dayOfWeek == Monday) && (date.getMonth() !== this.date.getMonth()) && (date>this.date)) { // if  date is equal Monday of next month
+          break;
+        }
+
         if (!table[week]) {
           table[week] = new Array();
         }
-
-        let dayOfWeek = getLocalDay(date);
+        
         table[week][dayOfWeek-1] = date;
 
-        if (dayOfWeek === LastDayOfWeek) {
+        if (dayOfWeek == LastDayOfWeek) {
           week++;
         }
 
         date = new Date(new Date(date).setDate(date.getDate() + 1)); 
-        if ((getLocalDay(date) === Monday) && (date.getMonth() != this.date.getMonth())) { // if next date is equal Monday of next month
-          break;
-        }
       }
 
       return table;
@@ -95,7 +96,7 @@ export const MeetupsCalendar = {
   // Методы понадобятся для переключения между месяцами
   methods: {
     isActiveDate(date) {
-      return new Date(date).getMonth() == this.date.getMonth();
+      return new Date(date).getMonth() === this.date.getMonth();
     },
 
     prevMonthHandler(e) {
