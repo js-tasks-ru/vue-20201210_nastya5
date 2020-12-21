@@ -16,9 +16,9 @@ export const MeetupsCalendar = {
       </div>
       <div class="rangepicker__date-grid">
         <template class="rangepicker__row" v-for="week in monthTable">
-          <div v-for="item in week" class="rangepicker__cell" :class="{ 'rangepicker__cell_inactive': !isActiveDate(item.date) }">
-            {{ new Date(item.date).getDate() }}
-            <a v-for="meetup in item.meetups" class="rangepicker__event">{{ meetup.title }}</a>
+          <div v-for="date in week" class="rangepicker__cell" :class="{ 'rangepicker__cell_inactive': !isActiveDate(date) }">
+            {{ new Date(date).getDate() }}
+            <a v-for="meetup in meetupsByDay.get(date)" class="rangepicker__event">{{ meetup.title }}</a>
           </div>
         </template>
       </div>
@@ -51,6 +51,14 @@ export const MeetupsCalendar = {
       });
     },
 
+    meetupsByDay(){
+      return this.meetups.reduce((m, meetup) => {
+        let key = (new Date(meetup.date)).setHours(0, 0, 0, 0);
+        m.set(key, [... (m.get(key) || []), meetup]);
+        return m;
+      }, new Map());
+    },
+    
     monthTable() {      
       const Monday = 1;
       const LastDayOfWeek = 7;
@@ -80,11 +88,7 @@ export const MeetupsCalendar = {
           table[week] = new Array();
         }
         
-        table[week][dayOfWeek-1] = { 
-          date: date, 
-          meetups: this.meetups.filter(meetup =>
-            (new Date((new Date(meetup.date)).setHours(0, 0, 0, 0))).getTime() === date.getTime()), 
-        };
+        table[week][dayOfWeek-1] = date.getTime();
 
         if (dayOfWeek == LastDayOfWeek) {
           week++;
