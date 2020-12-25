@@ -72,7 +72,7 @@ export default {
     },
 
     hasIcon() {
-      return this.options.filter((option) => option.icon).length != 0;
+      return this.options.some((option) => option.icon);
     },
   },
 
