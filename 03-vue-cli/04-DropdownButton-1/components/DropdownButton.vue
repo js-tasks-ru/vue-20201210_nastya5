@@ -2,25 +2,24 @@
   <div :class="['dropdown', { show: showMenu }]">
     <button
       type="button"
-      :class="['button dropdown__toggle', { dropdown__toggle_icon: hasIcon }]"
+      class="button dropdown__toggle"
+      :class="{ dropdown__toggle_icon: hasIcon }"
       @click="handleButtonClick"
     >
-      <app-icon
-        v-show="selected && selected.icon"
-        :icon="selected && selected.icon ? selected.icon : ''"
-      />
+      <app-icon v-if="selected && selected.icon" :icon="selected.icon" />
       {{ caption }}
     </button>
 
     <div :class="['dropdown__menu', { show: showMenu }]">
       <button
         v-for="option in options"
-        :class="['button dropdown__item', { dropdown__item_icon: hasIcon }]"
+        class="button dropdown__item"
+        :class="{ dropdown__item_icon: hasIcon }"
         type="button"
         :key="option.value"
         @click="handleMenuItemClick(option.value)"
       >
-        <app-icon v-show="option.icon" :icon="option.icon ? option.icon : ''" />
+        <app-icon v-if="option.icon" :icon="option.icon" />
         {{ option.text }}
       </button>
     </div>
