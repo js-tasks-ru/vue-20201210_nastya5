@@ -11,7 +11,7 @@
         {{ tab.text }}
       </router-link>
     </div>
-    <div class="content-tabs__content"><router-view /></div>
+    <div class="content-tabs__content"><slot></slot></div>
   </div>
 </template>
 
