@@ -18,7 +18,7 @@ export const MeetupsCalendar = {
         <template class="rangepicker__row" v-for="week in monthTable">
           <div v-for="date in week" class="rangepicker__cell" :class="{ 'rangepicker__cell_inactive': !isActiveDate(date) }">
             {{ new Date(date).getDate() }}
-            <a v-for="meetup in meetupsByDay.get(date)" class="rangepicker__event">{{ meetup.title }}</a>
+            <a v-for="meetup in meetupsByDay[date]" class="rangepicker__event">{{ meetup.title }}</a>
           </div>
         </template>
       </div>
@@ -50,22 +50,23 @@ export const MeetupsCalendar = {
         month: 'long'
       });
     },
-
-    meetupsByDay(){
-      return this.meetups.reduce((m, meetup) => {
+   
+    meetupsByDay() {
+      return Object.fromEntries(
+        this.meetups.reduce((m, meetup) => {
         let key = (new Date(meetup.date)).setHours(0, 0, 0, 0);
         m.set(key, [... (m.get(key) || []), meetup]);
         return m;
-      }, new Map());
+      }, new Map()));
     },
-    
-    monthTable() {      
+
+    monthTable() {
       const Monday = 1;
       const LastDayOfWeek = 7;
 
       const getLocalDay = (date) => {
         let day = date.getDay();
-        if (day == 0) { 
+        if (day == 0) {
           day = LastDayOfWeek;
         }
         return day;
@@ -87,14 +88,14 @@ export const MeetupsCalendar = {
         if (!table[week]) {
           table[week] = new Array();
         }
-        
+
         table[week][dayOfWeek-1] = date.getTime();
 
         if (dayOfWeek == LastDayOfWeek) {
           week++;
         }
 
-        date = new Date(new Date(date).setDate(date.getDate() + 1)); 
+        date = new Date(new Date(date).setDate(date.getDate() + 1));
       }
 
       return table;
