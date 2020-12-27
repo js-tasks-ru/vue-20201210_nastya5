@@ -12,12 +12,17 @@ export const router = new VueRouter({
   routes: [
     {
       path: '/page-a',
-      alias: '/',
+     /* alias: '/',*/
       component: PageA,
     },
     {
       path: '/page-b',
       component: PageB,
     },
+    {
+      path: '*',
+      component: NotFoundPage,
+    },
+    
   ],
 });
