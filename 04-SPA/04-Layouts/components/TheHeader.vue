@@ -1,10 +1,14 @@
 <template>
   <header class="header">
     <div>
-      <h1>MEETUPS</h1>
+      <h1>
+        <router-link :to="{ name: 'meetups' }">
+          <img src="../assets/logo.svg" alt="Meetups" />
+        </router-link>
+      </h1>
     </div>
     <nav>
-      <router-link to="/meetups">Митапы</router-link>
+      <router-link to="/">Митапы</router-link>
       <router-link to="/form">Создать митап</router-link>
       <router-link to="/login">Вход</router-link>
     </nav>
@@ -62,7 +66,7 @@ export default {
 }
 
 .header nav a:before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 50%;
@@ -81,7 +85,7 @@ export default {
   }
 
   .header nav a,
-  .header nav a + a{
+  .header nav a + a {
     margin-top: 0;
   }
 

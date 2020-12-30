@@ -1,16 +1,16 @@
 <template>
   <div class="page page_onboarding">
-    <section>
+    <div class="container">
       <h2>{{ title }}</h2>
       <slot />
-    </section>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'AuthLayout',
-  
+
   props: {
     title: {
       type: String,
