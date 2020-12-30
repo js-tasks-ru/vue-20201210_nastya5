@@ -3,8 +3,26 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-export function scrollBehavior() {
-  // Место для решения
+export function scrollBehavior(to, from, savedPosition) {
+
+  if (to.hash) {
+    return {
+      selector: to.hash
+    }
+  }
+
+  const isSaveScrollPosition = (route) => route.matched.some(record => record.meta.saveScrollPosition);
+
+  if (isSaveScrollPosition(to) && isSaveScrollPosition(from)) {
+    return false;
+  }
+
+  if (savedPosition) {
+    return savedPosition;
+  }
+  else {
+    return { x: 0, y: 0 }
+  }
 }
 
 export const router = new VueRouter({
