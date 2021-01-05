@@ -47,24 +47,27 @@ export default {
       this.goToNewLink();
     },
 
-    $route(to, from) {
-      //console.log(`watch route: ${to.fullPath}`);
+    $route: {
+      immediate: true,
+      handler: function (to, from) {
+        //console.log(`watch route: ${to.fullPath}`);
 
-      if (to.query.view) {
-        this.view = to.query.view;
-      }
+        if (to.query.view) {
+          this.view = to.query.view;
+        }
 
-      if (to.query.date) {
-        this.date = to.query.date;
-      }
+        if (to.query.date) {
+          this.date = to.query.date;
+        }
 
-      if (to.query.participation) {
-        this.participation = to.query.participation;
-      }
+        if (to.query.participation) {
+          this.participation = to.query.participation;
+        }
 
-      if (to.query.search) {
-        this.search = to.query.search;
-      }
+        if (to.query.search) {
+          this.search = to.query.search;
+        }
+      },
     },
   },
 
@@ -117,24 +120,6 @@ export default {
     },
   },
 
-  beforeRouteEnter(to, from, next) {
-    //console.log(`beforeRouteEnter: ${to.fullPath}`);
-
-    next((vm) => {
-      if (to.query.view) {
-        vm.view = to.query.view;
-      }
-      if (to.query.date) {
-        vm.date = to.query.date;
-      }
-      if (to.query.participation) {
-        vm.participation;
-      }
-      if (to.query.search) {
-        vm.search = to.query.search;
-      }
-    });
-  },
 };
 </script>
 
