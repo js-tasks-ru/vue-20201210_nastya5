@@ -23,56 +23,48 @@ export default {
 
   data() {
     return {
-      view: undefined,
-      date: undefined,
-      participation: undefined,
-      search: undefined,
+      view: defaultView,
+      date: defaultDate,
+      participation: defaultParticipation,
+      search: defaultSearch,
     };
   },
 
-  /*
-  computed: {
-    view: {
-      get: function () {
-        console.log(`get view`);
-        return this.view===undefined ? defaultView: this.view;
-      },
-      set: function (newValue) {
-        console.log(`set view: from ${this.view}  to ${newValue}`);
-        
-        this.view =  newValue;
-        this.goToNewLink();
-      }
-    },
-  },*/
-
   watch: {
     view: function (val) {
-      if (val === defaultView) {
-        this.view = undefined;
-      }
       this.goToNewLink();
     },
 
     date: function (val) {
-      if (val === defaultDate) {
-        this.date = undefined;
-      }
       this.goToNewLink();
     },
 
     participation: function (val) {
-      if (val === defaultParticipation) {
-        this.participation = undefined;
-      }
       this.goToNewLink();
     },
 
     search: function (val) {
-      if (val === defaultSearch) {
-        this.search = undefined;
-      }
       this.goToNewLink();
+    },
+
+    $route(to, from) {
+      //console.log(`watch route: ${to.fullPath}`);
+
+      if (to.query.view) {
+        this.view = to.query.view;
+      }
+
+      if (to.query.date) {
+        this.date = to.query.date;
+      }
+
+      if (to.query.participation) {
+        this.participation = to.query.participation;
+      }
+
+      if (to.query.search) {
+        this.search = to.query.search;
+      }
     },
   },
 
@@ -102,10 +94,13 @@ export default {
       let location = {
         path: '/',
         query: {
-          view: this.view,
-          date: this.date,
-          participation: this.participation,
-          search: this.search,
+          view: this.view !== defaultView ? this.view : undefined,
+          date: this.date !== defaultDate ? this.date : undefined,
+          participation:
+            this.participation !== defaultParticipation
+              ? this.participation
+              : undefined,
+          search: this.search !== defaultSearch ? this.search : undefined,
         },
       };
 
@@ -121,49 +116,24 @@ export default {
       });*/
     },
   },
-  /*
+
   beforeRouteEnter(to, from, next) {
-    console.log(`beforeRouteEnter: ${to.fullPath}`);
+    //console.log(`beforeRouteEnter: ${to.fullPath}`);
 
     next((vm) => {
       if (to.query.view) {
         vm.view = to.query.view;
       }
-
       if (to.query.date) {
         vm.date = to.query.date;
       }
-
       if (to.query.participation) {
-        vm.participation = to.query.participation;
+        vm.participation;
       }
-
       if (to.query.search) {
         vm.search = to.query.search;
       }
     });
-  },*/
-
-  beforeRouteUpdate(to, from, next) {
-    console.log(`beforeRouteUpdate: ${to.fullPath}`);
-
-    if (to.query.view) {
-      this.view = to.query.view;
-    }
-
-    if (to.query.date) {
-      this.date = to.query.date;
-    }
-
-    if (to.query.participation) {
-      this.participation = to.query.participation;
-    }
-
-    if (to.query.search) {
-      this.search = to.query.search;
-    }
-
-    next();
   },
 };
 </script>
