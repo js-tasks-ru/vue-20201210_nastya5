@@ -48,7 +48,7 @@ export default {
       this.filePath = value;
       this.bLoading = true;
 
-      ImageService.uploadImage(value).then((res) => {
+      ImageService.uploadImage(new File([], value)).then((res) => {
         this.$emit(`change`, res.id);
         this.bLoading = false;
       });
