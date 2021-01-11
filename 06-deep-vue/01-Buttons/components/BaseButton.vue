@@ -1,6 +1,7 @@
-<!--
+
 <template>
-  <button
+  <component
+    :is="tag"
     class="button"
     :class="{ button_block: block }"
     v-bind="$attrs"
@@ -9,8 +10,8 @@
     :target="$attrs['target']"
   >
     <slot />
-  </button>
-</template>-->
+  </component>
+</template> 
 
 <script>
 
@@ -28,21 +29,6 @@ export default {
       default: 'button',
       validator: (value) => ['button', 'a', 'router-link'].includes(value),
     },
-  },
-
-  render(h) {
-    return h(
-      this.tag==='router-link'? 'a' : this.tag,
-      {
-        class: {
-          button: true,
-          button_block: this.block,
-        },
-        on: this.$listeners,
-        attrs: {... this.$attrs, href: this.tag==='router-link'? this.$attrs['to'] : this.$attrs['href'] },
-      },
-      this.$slots.default,
-    );
   },
 };
 </script>
