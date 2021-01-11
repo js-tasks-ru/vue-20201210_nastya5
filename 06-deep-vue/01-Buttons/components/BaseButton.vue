@@ -6,8 +6,6 @@
     :class="{ button_block: block }"
     v-bind="$attrs"
     v-on="$listeners"
-    :href="$attrs['href']"
-    :target="$attrs['target']"
   >
     <slot />
   </component>
