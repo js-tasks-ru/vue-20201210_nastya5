@@ -16,7 +16,7 @@
         class="form-control-file"
         :disabled="this.bLoading || this.imageId !== null"
         :value="filePath"
-        @change="handleBrowseFile($event.target.value)"
+        @change="handleBrowseFile"
       />
     </label>
   </div>
@@ -44,11 +44,11 @@ export default {
     event: 'change',
   },
   methods: {
-     handleBrowseFile(value) {
-      this.filePath = value;
+     handleBrowseFile(event) {
+      this.filePath = event.target.value;
       this.bLoading = true;
 
-      ImageService.uploadImage(new File([], value)).then((res) => {
+      ImageService.uploadImage(event.target.files[0]).then((res) => {
         this.$emit(`change`, res.id);
         this.bLoading = false;
       });
