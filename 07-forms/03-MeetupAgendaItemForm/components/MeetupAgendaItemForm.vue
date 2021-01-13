@@ -7,7 +7,7 @@
     <div class="form-group">
       <select class="form-control" title="Тип" v-model="agendaItem_.type">
         <option
-          v-for="{ value, text } in getAgendaItemTypes()"
+          v-for="{ value, text } in getAgendaItemTypes"
           :value="value"
           :key="value"
         >
@@ -71,7 +71,7 @@
       <label class="form-label">Язык</label>
       <select class="form-control" v-model="agendaItem_.language">
         <option
-          v-for="{ value, text } in getTalkLanguages()"
+          v-for="{ value, text } in getTalkLanguages"
           :value="value"
           :key="value"
         >
@@ -132,6 +132,12 @@ export default {
     isOther() {
       return this.agendaItem_.type === 'other';
     },
+    getAgendaItemTypes() {
+      return getAgendaItemTypes();
+    },
+    getTalkLanguages() {
+      return getTalkLanguages();
+    },
   },
 
   methods: {
@@ -170,12 +176,7 @@ export default {
       this.agendaItem_.endsAt = calcTime(newEndsAt);
     },
 
-    getAgendaItemTypes() {
-      return getAgendaItemTypes();
-    },
-    getTalkLanguages() {
-      return getTalkLanguages();
-    },
+    
   },
 };
 </script>
