@@ -40,8 +40,7 @@
       <label class="form-label">{{ item.title }}</label>
       <component
         :is="item.component"
-        :multiline="!!item.props.multiline || !!item.props.textarea"
-        :options="item.props.options"
+        v-bind="item.props"
         v-bind:[item.model.prop]="agendaItem_[item.field]"
         v-on:[item.model.event]="agendaItem_[item.field] = $event"
       />
